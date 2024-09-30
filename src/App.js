@@ -1,25 +1,36 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import ReminderForm from './components/ReminderForm';
+import ReminderList from './components/ReminderList';
 import './App.css';
 
-function App() {
+const App = () => {
+  const [reminders, setReminders] = useState([]);
+
+  const addReminder = (reminder) => {
+    setReminders([...reminders, reminder]);
+  };
+
+  const updateReminder = (updatedReminder) => {
+    setReminders(reminders.map((reminder) =>
+      reminder.id === updatedReminder.id ? updatedReminder : reminder
+    ));
+  };
+
+  const deleteReminder = (id) => {
+    setReminders(reminders.filter((reminder) => reminder.id !== id));
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="app">
+      <h1>Reminder App</h1>
+      <ReminderForm addReminder={addReminder} />
+      <ReminderList 
+        reminders={reminders} 
+        updateReminder={updateReminder} 
+        deleteReminder={deleteReminder} 
+      />
     </div>
   );
-}
+};
 
 export default App;
